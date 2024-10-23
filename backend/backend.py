@@ -2,7 +2,7 @@ import mysql.connector
 from datetime import datetime
 import ollama
 import json
-from fdpf import FPDF
+from fpdf import FPDF
 
 def workDescriptionsSummarizer(work_descriptions):
     response = ollama.chat(model = 'llama3.2', messages = [
@@ -19,22 +19,22 @@ def worklogAndTADetails(ta_id, course_id, password, output_file):
         host='localhost',
         user='root',
         password=f'{password}',
-        database='TAPortal'
+        database='TAP'
     )
     cursor = conn.cursor()
 
     worklogQuery = f"""
-    SELECT Start_Timestamp, Work_Description, End_Timestamp
+    SELECT StartTimestamp, WorkDescription, EndTimestamp
     FROM Worklog
-    WHERE TA_ID = {ta_id} AND Course_ID = {course_id}"""
+    WHERE TAID = {ta_id} AND CourseID = {course_id}"""
     cursor.execute(worklogQuery)
     worklogResults = cursor.fetchall()
 
     taQuery = f"""
-    SELECT Bank_Name, Account_Number, ISFC_Code
+    SELECT BankName, AccountNumber, ISFCCode
     FROM TA
-    WHERE TA_ID = {ta_id} """
-    cursor.execute(taQuery)
+    WHERE TAID = %s """
+    cursor.execute(taQuery, (ta_id,))
     taResult = cursor.fetchone()
 
     cursor.close()
