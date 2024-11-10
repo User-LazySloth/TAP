@@ -19,7 +19,7 @@ def worklogAndTADetails(ta_id, course_id, password, output_file):
         host='localhost',
         user='root',
         password=f'{password}',
-        database='TAP'
+        database='TAPortal'
     )
     cursor = conn.cursor()
 
