@@ -23,17 +23,18 @@ def worklogAndTADetails(ta_id, course_id, password, output_file):
     )
     cursor = conn.cursor()
 
-    worklogQuery = f"""
-    SELECT StartTimestamp, WorkDescription, EndTimestamp
-    FROM Worklog
-    WHERE TAID = {ta_id} AND CourseID = {course_id}"""
-    cursor.execute(worklogQuery)
-    worklogResults = cursor.fetchall()
+    # worklogQuery = f"""
+    # SELECT Start_Timestamp, Work_Description, End_Timestamp
+    # FROM Worklog
+    # WHERE TA_ID = {ta_id} AND Course_ID = {course_id}"""
+    # cursor.execute(worklogQuery)
+    # worklogResults = cursor.fetchall()
+    worklogResults = [("2022-11-10 06:00:00", "I rewrote all the slides.", "2022-11-10 07:00:00"), ("2022-11-10 06:00:00", "I rewrote them again.", "2022-11-10 07:00:00"), ("2022-11-10 06:00:00", "I deleted them.", "2022-11-10 07:00:00")]
 
     taQuery = f"""
-    SELECT BankName, AccountNumber, ISFCCode
-    FROM TA
-    WHERE TAID = %s """
+    SELECT Bank_Name, Account_Number, ISFC_Code
+    FROM TA_Bank_Details
+    WHERE TA_ID = %s """
     cursor.execute(taQuery, (ta_id,))
     taResult = cursor.fetchone()
 
